@@ -1,0 +1,414 @@
+{
+	"info": {
+		"_postman_id": "f123c2c3-3f84-4f51-91ca-69dc78af0834",
+		"name": "Quote Stock Market",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23883790"
+	},
+	"item": [
+		{
+			"name": "List Quote Summary By Symbol or Company name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content-Type header is application/json\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Symbol field is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('array');",
+							"  responseData.forEach(function(item) {",
+							"    pm.expect(item.symbol).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Symbol should be a non-empty string\");",
+							"  });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Current price in USD and THB are non-negative numbers\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    ",
+							"    responseData.forEach(function(item) {",
+							"        pm.expect(item.currentPriceUSD).to.be.at.least(0);",
+							"        pm.expect(item.currentPriceTHB).to.be.at.least(0);",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/quote/:symbol_or_company_name",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"quote",
+						":symbol_or_company_name"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "cryptocurrency",
+							"description": "enum Optional [\"stock\", \"cryptocurrency\"] if falsy no filter",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "symbol_or_company_name",
+							"value": "bitcoin"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/quote/:symbol_or_company_name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quote",
+								":symbol_or_company_name"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "",
+									"description": "enum Optional [\"stock\", \"cryptocurrency\"] if falsy no filter",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "symbol_or_company_name",
+									"value": "bitcoin"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-RateLimit-Limit-short",
+							"value": "10"
+						},
+						{
+							"key": "X-RateLimit-Remaining-short",
+							"value": "9"
+						},
+						{
+							"key": "X-RateLimit-Reset-short",
+							"value": "1"
+						},
+						{
+							"key": "X-RateLimit-Limit-medium",
+							"value": "20"
+						},
+						{
+							"key": "X-RateLimit-Remaining-medium",
+							"value": "18"
+						},
+						{
+							"key": "X-RateLimit-Reset-medium",
+							"value": "8"
+						},
+						{
+							"key": "X-RateLimit-Limit-long",
+							"value": "100"
+						},
+						{
+							"key": "X-RateLimit-Remaining-long",
+							"value": "94"
+						},
+						{
+							"key": "X-RateLimit-Reset-long",
+							"value": "17"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "612"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"264-a8wxCcp8MHZ7dXzxyYxZWk93BA0\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 13 Sep 2024 15:20:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"symbol\": \"BTC-USD\",\n        \"companyName\": \"Bitcoin USD\",\n        \"currentPriceUSD\": 58503.168,\n        \"currentPriceTHB\": 1943475.2409599999,\n        \"marketTime\": \"2024-09-13T15:18:00.000Z\",\n        \"quoteType\": \"CRYPTOCURRENCY\",\n        \"isCryptoCurrency\": true\n    },\n    {\n        \"symbol\": \"FBTC\",\n        \"companyName\": \"Fidelity Wise Origin Bitcoin Fund\",\n        \"currentPriceUSD\": 51.195,\n        \"currentPriceTHB\": 1700.6979,\n        \"marketTime\": \"2024-09-13T15:20:16.000Z\",\n        \"quoteType\": \"ETF\",\n        \"isCryptoCurrency\": false\n    },\n    {\n        \"symbol\": \"IBIT\",\n        \"companyName\": \"iShares Bitcoin Trust\",\n        \"currentPriceUSD\": 33.34,\n        \"currentPriceTHB\": 1107.5548000000001,\n        \"marketTime\": \"2024-09-13T15:20:20.000Z\",\n        \"quoteType\": \"ETF\",\n        \"isCryptoCurrency\": false\n    }\n]"
+				},
+				{
+					"name": "200 - filter \"stock\"",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/quote/:symbol_or_company_name?filter=stock",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quote",
+								":symbol_or_company_name"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "stock",
+									"description": "enum Optional [\"stock\", \"cryptocurrency\"] if falsy no filter"
+								}
+							],
+							"variable": [
+								{
+									"key": "symbol_or_company_name",
+									"value": "bitcoin"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-RateLimit-Limit-short",
+							"value": "10"
+						},
+						{
+							"key": "X-RateLimit-Remaining-short",
+							"value": "9"
+						},
+						{
+							"key": "X-RateLimit-Reset-short",
+							"value": "1"
+						},
+						{
+							"key": "X-RateLimit-Limit-medium",
+							"value": "20"
+						},
+						{
+							"key": "X-RateLimit-Remaining-medium",
+							"value": "19"
+						},
+						{
+							"key": "X-RateLimit-Reset-medium",
+							"value": "10"
+						},
+						{
+							"key": "X-RateLimit-Limit-long",
+							"value": "100"
+						},
+						{
+							"key": "X-RateLimit-Remaining-long",
+							"value": "94"
+						},
+						{
+							"key": "X-RateLimit-Reset-long",
+							"value": "2"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "415"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"19f-QbTfgsPZx+xRXxeVmbe7FqBZM2M\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 13 Sep 2024 15:20:39 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"symbol\": \"FBTC\",\n        \"companyName\": \"Fidelity Wise Origin Bitcoin Fund\",\n        \"currentPriceUSD\": 51.1901,\n        \"currentPriceTHB\": 1701.0470229999999,\n        \"marketTime\": \"2024-09-13T15:20:24.000Z\",\n        \"quoteType\": \"ETF\",\n        \"isCryptoCurrency\": false\n    },\n    {\n        \"symbol\": \"IBIT\",\n        \"companyName\": \"iShares Bitcoin Trust\",\n        \"currentPriceUSD\": 33.33,\n        \"currentPriceTHB\": 1107.5558999999998,\n        \"marketTime\": \"2024-09-13T15:20:37.000Z\",\n        \"quoteType\": \"ETF\",\n        \"isCryptoCurrency\": false\n    }\n]"
+				},
+				{
+					"name": "200 - filter \"cryptocurrency\"",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/quote/:symbol_or_company_name?filter=cryptocurrency",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quote",
+								":symbol_or_company_name"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "cryptocurrency",
+									"description": "enum Optional [\"stock\", \"cryptocurrency\"] if falsy no filter"
+								}
+							],
+							"variable": [
+								{
+									"key": "symbol_or_company_name",
+									"value": "bitcoin"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-RateLimit-Limit-short",
+							"value": "10"
+						},
+						{
+							"key": "X-RateLimit-Remaining-short",
+							"value": "9"
+						},
+						{
+							"key": "X-RateLimit-Reset-short",
+							"value": "1"
+						},
+						{
+							"key": "X-RateLimit-Limit-medium",
+							"value": "20"
+						},
+						{
+							"key": "X-RateLimit-Remaining-medium",
+							"value": "18"
+						},
+						{
+							"key": "X-RateLimit-Reset-medium",
+							"value": "3"
+						},
+						{
+							"key": "X-RateLimit-Limit-long",
+							"value": "100"
+						},
+						{
+							"key": "X-RateLimit-Remaining-long",
+							"value": "98"
+						},
+						{
+							"key": "X-RateLimit-Reset-long",
+							"value": "53"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "208"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"d0-F/7Ly+W82ZLDxCJNND9sh9T5sPw\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 13 Sep 2024 15:23:57 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"symbol\": \"BTC-USD\",\n        \"companyName\": \"Bitcoin USD\",\n        \"currentPriceUSD\": 58471.332,\n        \"currentPriceTHB\": 1941248.2224000003,\n        \"marketTime\": \"2024-09-13T15:21:00.000Z\",\n        \"quoteType\": \"CRYPTOCURRENCY\",\n        \"isCryptoCurrency\": true\n    }\n]"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		}
+	]
+}
